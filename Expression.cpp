@@ -117,7 +117,6 @@ static std::string	normalize_expr(const std::string& expr)
 				str[i] = '~';
 		}
 	}
-	std::cout << "normalized expr: '" << str << "'" << std::endl;
 	return str;
 }
 

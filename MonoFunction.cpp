@@ -7,25 +7,21 @@ MonoFunction::MonoFunction(const std::string& function, const std::string& var, 
 	size_t match = _function.find(arg);
 	while (match != std::string::npos)
 	{
-		std::cout << match << std::endl;
 		if ((match == 0 || !std::isalpha(_function[match - 1])) &&
 		    ((match + arg.length() < _function.length() && !std::isalpha(_function[match + arg.length()])) ||
 		     match + arg.length() == _function.length()))
 		{
-			std::cout << "replacing" << std::endl;
 			_function.replace(match, arg.length(), "$");
 		}
 		match += arg.length();
 		match = _function.find(arg, match);
 	}
-	std::cout << "funciton: " << _function << std::endl;
 }
 
 std::string	MonoFunction::_replace(const std::string& arg)
 {
 	std::string out = _function;
 	std::string replacement;
-	std::cout << "arg: " << arg << std::endl;
 	replacement = replacement + "(" + arg + ")";
 	size_t pos = out.find("$");
 	while (pos != std::string::npos)
@@ -70,7 +66,6 @@ std::string	MonoFunction::Expand(const std::string& expression)
 		{
 			std::pair<size_t, size_t> arg = get_brackets(match + _var.length(), expr);
 			std::string replacement = _replace(expr.substr(arg.first + 1, arg.second - arg.first - 1));
-			std::cout << "replacement: " << replacement << std::endl;
 			expr.replace(match, arg.second - match + 1, replacement);
 			match += arg.first - arg.second - 1 + replacement.length();
 		}

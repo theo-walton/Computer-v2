@@ -20,6 +20,18 @@ Polynomial Polynomial::operator/(const Polynomial& p) const
 	return out;
 }
 
+Polynomial Polynomial::operator%(const Polynomial& p) const
+{
+	if (p.map.size() != 1 || p.map.count(0) != 1 ||
+	    map.size() != 1 || map.count(0) != 1)
+	{
+		throw std::runtime_error("invalid polynomial resulting");
+	}
+	Polynomial out;
+	out.map[0] = map.at(0) * p.map.at(0);
+	return out;
+}
+
 Polynomial Polynomial::operator+(const Polynomial& p) const
 {
 	Polynomial out = {map};
@@ -50,5 +62,20 @@ Polynomial Polynomial::operator^(const Polynomial& p) const
 		for (auto& pair : map)
 			out.map[pair.first * pow] = pair.second ^ Complex{static_cast<float>(pow), 0};
 	}
+	else
+		throw std::runtime_error("invalid polynomial resulting");
 	return out;
+}
+
+std::ostream& operator<<(std::ostream& stream, const Polynomial& p)
+{
+	bool first = true;
+	for (auto pair : p.map)
+	{
+		if (!first)
+			stream << ",";
+		stream << "(" << pair.second << ")$^" << pair.first;
+		first = false;
+	}
+	return stream;
 }

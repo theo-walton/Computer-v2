@@ -160,6 +160,7 @@ Matrix	Matrix::Multiply(const Matrix& a, const Matrix& b)
 
 std::ostream& operator<<(std::ostream& stream, const Matrix& m)
 {
+	stream << "[";
 	for (int i = 0; i < m.values.size(); i++)
 	{
 		bool first = true;
@@ -168,13 +169,14 @@ std::ostream& operator<<(std::ostream& stream, const Matrix& m)
 		{
 			if (!first)
 				stream << ",";
-			stream << " " << m.values[i][j] << " ";
+			stream << m.values[i][j];
 			first = false;
 		}
 		stream << "]";
 		if (i != m.values.size() - 1)
-			stream << "\n";
+			stream << ";";
 	}
+	stream << "]";
 	return stream;
 }
 
@@ -230,7 +232,6 @@ static bool	parse_complex(const std::string& token, Complex* c)
 
 static std::vector<Complex>	parse_row(const std::string& row)
 {
-	std::cout << "Row: " << row << std::endl;
 	std::stringstream ss(row + ",");
 	std::vector<Complex> out;
 
@@ -266,7 +267,6 @@ std::istream& operator>>(std::istream& stream, Matrix& m)
 	int start = stream.tellg();
 	std::string str = get_raw_matrix(stream);
 	str.erase(std::remove_if(str.begin(), str.end(), ::isspace), str.end());
-	std::cout << "raw matrix: " << str << std::endl;
 	if (str.empty() || !fill_matrix(str, m))
 	{
 		stream.clear();

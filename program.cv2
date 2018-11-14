@@ -1,0 +1,2 @@
+sqrt(x) = _solve(sqrtvar*sqrtvar - x)
+_print(sqrt(16) * sqrt(16))

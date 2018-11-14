@@ -9,7 +9,10 @@ struct	Polynomial
 	
 	Polynomial operator*(const Polynomial&) const;
 	Polynomial operator/(const Polynomial&) const;
+	Polynomial operator%(const Polynomial&) const;
 	Polynomial operator+(const Polynomial&) const;
 	Polynomial operator-(const Polynomial&) const;
 	Polynomial operator^(const Polynomial&) const;
 };
+
+std::ostream& operator<<(std::ostream&, const Polynomial&);
