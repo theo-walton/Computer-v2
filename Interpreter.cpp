@@ -217,9 +217,61 @@ std::string	Interpreter::expandGoto(const std::string& expression)
 	return out;
 }
 
+static bool	close_to_zero(std::string sub)
+{
+	Complex c;
+	float sign = 1;
+	if (sub.length() >= 1 && sub[0] == '+')
+		sub = sub.substr(1);
+	else if (sub.length() >= 1 && sub[0] == '-')
+	{
+		sign = -1;
+		sub = sub.substr(1);
+	}
+	std::stringstream ss(sub);
+	ss >> c;
+	c.a *= sign;
+	c.b *= sign;
+	if (c.a <= 0.001 && c.b <= 0.001 && c.a >= -0.001 && c.b >= -0.001)
+		return true;
+	return false;
+}
+
+std::string	Interpreter::expandIfnt(const std::string& expression, bool& failed)
+{
+	std::string out = expression;
+	size_t match = out.find("_ifnt");
+	while (match != std::string::npos)
+	{
+		if ((match == 0 || !std::isalpha(out[match - 1])) &&
+		    ((match + 5 < out.length() && !std::isalpha(out[match + 5])) ||
+		     match + 5 == out.length()))
+		{
+			std::pair<size_t, size_t> arg = get_brackets(match + 5, out);
+			std::string sub = out.substr(arg.first + 1, arg.second - arg.first - 1);
+			if (!close_to_zero(ReadLine(sub, true)))
+			{
+				failed = true;
+				return "";
+			}
+			std::string repl = "";
+			out.replace(match, arg.second - match + 1, repl);
+			match += repl.length();
+		}
+		else
+			match += 5;
+		match = out.find("_ifnt", match);
+	}
+	return out;
+}
+
 std::string	Interpreter::ReadLine(const std::string& line, bool output)
 {
-	std::string lin = expandTag(line);
+	bool failed = false;
+	std::string lin = expandIfnt(line, failed);
+	if (failed)
+		return "";
+	lin = expandTag(lin);
 	lin = expandPrint(lin);
 	lin = expandRunit(lin);
 	lin = expandGoto(lin);
@@ -240,9 +292,7 @@ std::string	Interpreter::ReadLine(const std::string& line, bool output)
                         expr = f.second.Expand(expr);
 	if (arg.empty())
 	{
-		std::cout << "before: " << expr << std::endl;
 		expr = expand_solve(expr, _variables);
-		std::cout << "after: " << expr << std::endl;
 		_variables[var] = Expression::evaluate(expr, _variables);
 		if (output)
 		{

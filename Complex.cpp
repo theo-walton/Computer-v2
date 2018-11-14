@@ -24,7 +24,13 @@ Complex Complex::operator-(const Complex& n) const
 
 Complex Complex::operator%(const Complex& n) const
 {
-	return Complex{std::fmod(a, n.a), std::fmod(b, n.b)};
+	float aout = 0;
+	float bout = 0;
+	if (a && n.a)
+		aout = std::fmod(a, n.a);
+	if (b && n.b)
+		bout = std::fmod(b, n.b);
+	return Complex{aout, bout};
 }
 
 Complex Complex::operator^(const Complex& n) const

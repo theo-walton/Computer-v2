@@ -27,6 +27,7 @@ class	Interpreter
 	std::string	expandPrint(const std::string&);
 	std::string	expandTag(const std::string&);
 	std::string	expandGoto(const std::string&);
+	std::string	expandIfnt(const std::string&, bool& failed);
 
 public:
 	std::string	ReadLine(const std::string&, bool output=false);
