@@ -198,7 +198,6 @@ std::string	expand_solve(const std::string& expr, const std::map<std::string, Va
 	size_t match = out.find("_solve");
 	while (match != std::string::npos)
 	{
-		std::cout << out.substr(match) << std::endl;
 		if ((match == 0 || !std::isalpha(out[match - 1])) &&
 		    ((match + 6 < out.length() && !std::isalpha(out[match + 6])) ||
 		     match + 6 == out.length()))

@@ -1,3 +1,5 @@
 
 all:
-	g++ *.cpp -I . -std=c++14 -fsanitize=address -fsanitize=undefined -g -Wall -Werror
+	g++ *.cpp -o computorv2 -I . -std=c++14 -Wall -Werror
+clean:
+	rm computorv2

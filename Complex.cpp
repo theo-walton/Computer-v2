@@ -45,7 +45,11 @@ std::ostream& operator<<(std::ostream& stream, const Complex& n)
 	if (n.a)
 	{
 		stream << n.a;
-		if (n.b > 0)
+		if (n.b == 1)
+			stream << " + i";
+		else if (n.b == -1)
+			stream << " - i";
+		else if (n.b > 0)
 			stream << " + " << n.b << "i";
 		else if (n.b < 0)
 			stream << " - " << -n.b << "i";

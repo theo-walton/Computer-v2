@@ -31,7 +31,9 @@ int	main(int ac, char** av)
 		std::cout << "usage: " << av[0] << " [filepath]" << std::endl;
 		return 0;
 	}
-
+	if (!Global::read_from_file)
+		std::cout << "CV2 [version 1.0]" << std::endl;
+	
 	std::vector<std::string> lines;
 	Interpreter interpret;
 	if (!Global::read_from_file)

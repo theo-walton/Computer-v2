@@ -1,0 +1,23 @@
+
+_ifnt(1) this is a comment...!
+
+limit = 100
+
+_print(2)
+n = 3
+_tag(0)
+
+x = n - 1
+notprime = 0
+
+_tag(1)
+
+_ifnt(n % x) notprime = 1
+x = x - 1
+
+_ifnt(_ifnt(x - 1)1) _goto(1)
+
+_ifnt(notprime) _print(n)
+n = n + 1
+
+_ifnt(_ifnt(n - limit)1) _goto(0)
